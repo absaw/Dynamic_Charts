@@ -1,0 +1,30 @@
+=======================================
+Author : Abhishek Sawalkar
+www.linkedin.com/in/abhisheksawalkar
+abhishek.sawalkar@rutgers.edu
+=======================================
+1 MAY 2023
+
+This was a great experience since I learnt a lot about docker and postgresql along with flask to implement this 
+project. Hopeful that I get the call for the interview. Looking forward to the challenge.
+
+Checklist:-
+
+DONE--1) Does your package install successfully?=YES
+DONE--2) Can your dashboard be viewed at http://localhost:8888/, does it fulfill the MVP specification, and does it look good?=YES
+DONE--3) Is your code high quality, e.g. does it follow PEP8, is it fully type annotated, are there comments? = YES
+DONE--4) Bonus features.
+
+### Bonus features
+
+Please do not work on these features until you've successfully completed the MVP, and haven't run out of time.
+
+DONE--1) Can you allow the user to select the time window? = YES
+DONE--2) Can you add a button to refresh the data without refreshing the page, or auto-refresh the page for the user?=YES
+DONE--3) Can you add a "Download as csv" button? = FOR THE SPECIFIC TIME PERIOD
+
+How to run project?
+Prereq: Docker
+2 commands:-
+1. docker-compose build
+2. docker-compose up

@@ -5,104 +5,122 @@
     <meta charset="UTF-8">
     <title>ARK Charts</title>
     <link rel="icon" type="image/png" href="/static/favicon.png">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <style>
-        /* body {
-            font-family: Arial, sans-serif;
-            background-color: #F0F0F0;
-        } */
+        
         body {
-            /* font-family: 'Courier New', Courier, monospace; */
-            font-family: 'Brush Script MT', cursive;
-            /* background: linear-gradient(to bottom, rgb(9, 159, 209), rgba(152, 190, 190)); */
+            font-family: 'Courier New', Courier, monospace;
             background: linear-gradient(to bottom, rgb(9, 159, 209), rgb(249, 249, 249));
-            /* background-color: rgba(152, 190, 190); */
 
         }
+
         .center {
-        text-align: center;
+            text-align: center;
         }
 
         .center img {
-        display: inline-block;
-        vertical-align: middle;
+            display: inline-block;
+            vertical-align: middle;
         }
+
         h1 {
             text-align: center;
             margin-top: 50px;
             color: white;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         #chart1 {
             margin-top: 50px;
         }
 
-        /* button {
-            background-color: #4CAF50; 
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        } */
-        button {
-            background-color: black;
+        button,
+        select {
+            background-color: rgb(29,28, 26);
             color: white;
             border: none;
             padding: 10px;
             margin-right: 10px;
             cursor: pointer;
             font-family: 'Courier New', Courier, monospace;
-            /* font-family: 'Brush Script MT', cursive; */
-
 
         }
 
-        button:hover {
+        button:hover,
+        select:hover {
             opacity: 0.8;
         }
 
-        /* button:hover {
-            background-color: #3e8e41;
-        } */
     </style>
 </head>
 
 <body onload="initial_graph()">
     <div class="center">
         <br><br><br>
-    <img src="static/ark.svg" alt="My SVG Image">
+        <img src="static/ark.svg" alt="My SVG Image">
     </div>
     <h1>Charts</h1>
+
     <br>
     <div style="text-align:center;">
-        <button id="graph1-btn" data-graph="graph1">Temperature</button>
-        <button id="graph2-btn" data-graph="graph2">pH Value</button>
-        <button id="graph3-btn" data-graph="graph3">Process Dissolved Oxygen</button>
-        <button id="graph4-btn" data-graph="graph4">Pressure Output</button>
+        <button id="graph1-btn">Temperature</button>
+        <button id="graph2-btn">pH Value</button>
+        <button id="graph3-btn">Process Dissolved Oxygen</button>
+        <button id="graph4-btn">Pressure Output</button>
         <br>
         <br>
         <br>
-        <button id="refresh-btn" >&#x21bb; Refresh</button>
+        <select id="time-1">
+            <option value="" selected disabled>Select Start Time</option>
+        </select>
+        <select id="time-2">
+            <option value="" selected disabled>Select End Time</option>
+        </select>
+        <br>
+        <br>
+        <br>
+        <button id="submit-btn">Submit Time Period</button>
+
+        <div id="message-div">
+           
+            <b>
+                <p id="message" style="color:red;"></p>
+            </b>
+        </div>
+        <br>
+        <br>
+        <br>
+        <button id="refresh-btn">&#x21bb; Refresh</button>
         <button id="download-btn">Download CSV</button>
     </div>
 
     <canvas id="chart1"></canvas>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h4 style="text-align: center;"> © Developed by Abhishek Sawalkar - 1 May, 2023</h4>
 
     <script>
         var canvas = null;
-        var currentGraph=1
+        var currentGraph = 1;
+        var current_x_values = null;
+        var current_y_values = null;
+        var current_name = null;
+        var current_unit = null;
+
         function initial_graph() {
             var x_values1 = {{ x_values | safe}};
         // sets the value of the x_values1 JavaScript variable to the value of the x_values 
         // variable from the Flask backend, and it uses Jinja syntax to accomplish this
-        var y_values1 = {{ y_values | safe }};
-
+        var y_values1 = {{ y_values | safe}};
+        current_x_values = x_values1
+        current_y_values = y_values1
+        current_name = "Temperature"
+        current_unit = "Celsius"
+        // Drafting the plot using chart.js
         var ctx1 = document.getElementById('chart1').getContext('2d');
         var chart = new Chart(ctx1, {
             type: 'line',
@@ -111,34 +129,32 @@
                 datasets: [{
                     label: 'Temperature Celsius',
                     data: y_values1,
-                    backgroundColor: 'black',
                     borderColor: 'black',
-                    borderWidth: 0.5
+                    borderWidth: 1
                 }]
             },
+            options: {
+           
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Date-Time'
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Temperature Celsius'
+                            }
+                        }]
+                    }
+                },
 
-            // options: {
-            //     scales: {
-            //         xAxes: [{
-            //             ticks: {
-            //                 fontColor: 'rgb(255, 255, 255)'
-            //             },
-            //             gridLines: {
-            //                 color: 'rgb(255, 255, 255)'
-            //             }
-            //         }],
-            //         yAxes: [{
-            //             ticks: {
-            //                 fontColor: 'rgb(255, 255, 255)'
-            //             },
-            //             gridLines: {
-            //                 color: 'rgb(255, 255, 255)'
-            //             }
-            //         }]
-            //     }
-            // }
         });
         canvas = chart;
+        // Updating the dropdown options 
+        updateTimeSelect(x_values1);
     }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -149,79 +165,155 @@
             var graph4Btn = document.getElementById("graph4-btn");
             var refreshBtn = document.getElementById("refresh-btn");
             var downloadBtn = document.getElementById("download-btn");
+            var startTimeDropdown = document.getElementById('time-1');
+            var endTimeDropdown = document.getElementById('time-2');
+            var submitBtn = document.getElementById('submit-btn');
+            var msg = document.getElementById("message");
 
             graph1Btn.addEventListener("click", function () {
-                getGraphData("1");
-                currentGraph=1
-            });
-            graph2Btn.addEventListener("click", function () {
-                getGraphData("2");
-                currentGraph=2
+                currentGraph = 1
+                clearMessage();
+                getGraphData(currentGraph, 0, 0);
 
             });
+            graph2Btn.addEventListener("click", function () {
+                currentGraph = 2
+                clearMessage();
+                getGraphData(currentGraph, 0, 0);
+            });
             graph3Btn.addEventListener("click", function () {
-                getGraphData("3");
-                currentGraph=3
+                currentGraph = 3
+                clearMessage();
+                getGraphData(currentGraph, 0, 0);
 
             });
             graph4Btn.addEventListener("click", function () {
-                getGraphData("4");
-                currentGraph=4
+                currentGraph = 4
+                clearMessage();
+                getGraphData(currentGraph, 0, 0);
+
             });
             refreshBtn.addEventListener("click", function () {
-                getGraphData(currentGraph);
+                clearMessage();
+                getGraphData(currentGraph, 0, 0);
+            });
+            submitBtn.addEventListener("click", function () {
+                const startTime = startTimeDropdown.value;
+                const endTime = endTimeDropdown.value;
+
+                if (startTime && endTime && startTime >= endTime) {
+                    msg.textContent = "End time must be after start time.";
+                    startTimeDropdown.value = ''; // reset the start time dropdown value
+                    endTimeDropdown.value = ''; // reset the end time dropdown value
+                }
+                else if (startTime == '' || endTime == '') {
+                    msg.textContent = "Select a Value";
+                    startTimeDropdown.value = ''; // reset the start time dropdown value
+                    endTimeDropdown.value = ''; // reset the end time dropdown value
+                }
+                else {
+                    msg.textContent = null;
+                    getGraphData(currentGraph, startTimeDropdown.value, endTimeDropdown.value)
+                }
+
             });
             downloadBtn.addEventListener("click", function () {
                 downloadCSV(currentGraph);
             });
+            function clearMessage() {
+                startTimeDropdown.value = ''; // reset the start time dropdown value
+                endTimeDropdown.value = ''; // reset the end time dropdown value
+                msg.textContent = null;
+
+            }
+
         });
+
+        function updateTimeSelect(x_value) {
+            var selectElement1 = document.getElementById("time-1");
+            var selectElement2 = document.getElementById("time-2");
+            // Clear previous options
+            selectElement1.innerHTML = "";
+            selectElement2.innerHTML = "";
+            // Add default option
+            var defaultOption1 = document.createElement("option");
+            defaultOption1.value = "";
+            defaultOption1.text = "Select Start Time";
+            defaultOption1.selected = true;
+            defaultOption1.disabled = true;
+            selectElement1.add(defaultOption1);
+
+            var defaultOption2 = document.createElement("option");
+            defaultOption2.value = "";
+            defaultOption2.text = "Select End Time";
+            defaultOption2.selected = true;
+            defaultOption2.disabled = true;
+            selectElement2.add(defaultOption2);
+            // Loop through the options in the JSON data and add them to the select element
+            x_value.forEach(function (option) {
+                let optionElement = document.createElement("option");
+                optionElement.value = option;
+                optionElement.text = option;
+                selectElement1.add(optionElement);
+            });
+            x_value.forEach(function (option) {
+                let optionElement = document.createElement("option");
+                optionElement.value = option;
+                optionElement.text = option;
+                selectElement2.add(optionElement);
+            });
+        }
         function downloadCSV(graph) {
-            // Get the JSON data from your JavaScript function
-            // send an HTTP GET request to the Flask server
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/graph/" + graph, true);
-            var data=null;
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // update the graph on the page with the new data
-                    data = JSON.parse(xhr.response);
-                    console.log("xmlhttp response parsed as JSON")
-                }
-            };
-            xhr.send();
-            
-            const jsonData = data;
-            
-            // Convert the JSON data to a CSV format
-            const csvData = convertToCSV(jsonData);
-            
+
+            var row = "DateTime," + current_name + " " + current_unit + "\n";
+            for (i = 0; i < current_y_values.length; i++) {
+                row += current_x_values[i] + "," + current_y_values[i] + "\n";
+            }
+
             // Create a new Blob object with the CSV data and set the MIME type
-            const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
-            
+            const blob = new Blob([row], { type: "text/csv;charset=utf-8;" });
+
             // Create a link element and set its download attribute and href attribute
             const link = document.createElement("a");
-            link.setAttribute("download", "data.csv");
+            link.setAttribute("download", current_name + ".csv");
             link.setAttribute("href", URL.createObjectURL(blob));
-            
+
             // Click the link element to download the file
             link.click();
         }
 
-        function getGraphData(graph) {
+        function getGraphData(graph, start, end) {
             // send an HTTP GET request to the Flask server
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/graph/" + graph, true);
+            const url = '/graph/'
+            const data = {
+                graph: graph,
+                start: start,
+                end: end
+            };
+            var data_returned=null;
+            // Make post request to send graph required, and the start and end time
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    // update the graph on the page with the new data
-                    var data = JSON.parse(xhr.response);
+                    // Repsonse returned from flask app having the set number of rows needed as a json
+                    data_returned = JSON.parse(xhr.response);
                     console.log("xmlhttp response parsed as JSON")
-                    console.log(data)
+                    console.log(data_returned)
                     console.log("Calling update graph now")
-                    updateGraph(graph, data);
+                    if (start==0 && end==0){
+                        
+                        updateTimeSelect(data_returned.x_values);
+                        
+                    }
+                    // update the graph on the page with the new data
+                    updateGraph(graph, data_returned);
                 }
             };
-            xhr.send();
+            // Sends the post request with data in body
+            xhr.send(JSON.stringify(data));
+            
         }
         function updateGraph(graph, data) {
             // get the canvas element for the graph
@@ -234,9 +326,13 @@
             var label = name + " " + unit
             var x_values = data.x_values
             var y_values = data.y_values
+            current_x_values = x_values
+            current_y_values = y_values
+            // updateTimeSelect();
+            current_name = name
+            current_unit = unit
             console.log(name)
-            // console.log(x_values)
-            // console.log(y_values)
+           
             // create a new Chart object with the updated data
             canvas = document.getElementById('chart1').getContext('2d');
             var chart = new Chart(canvas, {
@@ -246,14 +342,29 @@
                     datasets: [{
                         label: label,
                         data: y_values,
-                        backgroundColor: 'black',
                         borderColor: 'black',
-                        borderWidth:0.5
+                        borderWidth: 1
                     }]
                 },
-                
-                
-                
+                options: {
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Date-Time'
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: label
+                            }
+                        }]
+                    }
+                },
+
+
+
             });
             canvas = chart
         }
