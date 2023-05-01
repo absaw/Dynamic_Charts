@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ARK Charts</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+            background-color: #F0F0F0;
+        } */
+        body {
+            /* font-family: 'Courier New', Courier, monospace; */
+            font-family: 'Brush Script MT', cursive;
+            /* background: linear-gradient(to bottom, rgb(9, 159, 209), rgba(152, 190, 190)); */
+            background: linear-gradient(to bottom, rgb(9, 159, 209), rgb(249, 249, 249));
+            /* background-color: rgba(152, 190, 190); */
+
+        }
+        .center {
+        text-align: center;
+        }
+
+        .center img {
+        display: inline-block;
+        vertical-align: middle;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+        }
+
+        #chart1 {
+            margin-top: 50px;
+        }
+
+        /* button {
+            background-color: #4CAF50; 
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        } */
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            /* font-family: 'Brush Script MT', cursive; */
+
+
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        /* button:hover {
+            background-color: #3e8e41;
+        } */
+    </style>
+</head>
+
+<body onload="initial_graph()">
+    <div class="center">
+        <br><br><br>
+    <img src="static/ark.svg" alt="My SVG Image">
+    </div>
+    <h1>Charts</h1>
+    <br>
+    <div style="text-align:center;">
+        <button id="graph1-btn" data-graph="graph1">Temperature</button>
+        <button id="graph2-btn" data-graph="graph2">pH Value</button>
+        <button id="graph3-btn" data-graph="graph3">Process Dissolved Oxygen</button>
+        <button id="graph4-btn" data-graph="graph4">Pressure Output</button>
+        <br>
+        <br>
+        <br>
+        <button id="refresh-btn" >&#x21bb; Refresh</button>
+        <button id="download-btn">Download CSV</button>
+    </div>
+
+    <canvas id="chart1"></canvas>
+
+    <script>
+        var canvas = null;
+        var currentGraph=1
+        function initial_graph() {
+            var x_values1 = {{ x_values | safe}};
+        // sets the value of the x_values1 JavaScript variable to the value of the x_values 
+        // variable from the Flask backend, and it uses Jinja syntax to accomplish this
+        var y_values1 = {{ y_values | safe }};
+
+        var ctx1 = document.getElementById('chart1').getContext('2d');
+        var chart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: x_values1,
+                datasets: [{
+                    label: 'Temperature Celsius',
+                    data: y_values1,
+                    backgroundColor: 'black',
+                    borderColor: 'black',
+                    borderWidth: 0.5
+                }]
+            },
+
+            // options: {
+            //     scales: {
+            //         xAxes: [{
+            //             ticks: {
+            //                 fontColor: 'rgb(255, 255, 255)'
+            //             },
+            //             gridLines: {
+            //                 color: 'rgb(255, 255, 255)'
+            //             }
+            //         }],
+            //         yAxes: [{
+            //             ticks: {
+            //                 fontColor: 'rgb(255, 255, 255)'
+            //             },
+            //             gridLines: {
+            //                 color: 'rgb(255, 255, 255)'
+            //             }
+            //         }]
+            //     }
+            // }
+        });
+        canvas = chart;
+    }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // add a click event listener to each button
+            var graph1Btn = document.getElementById("graph1-btn");
+            var graph2Btn = document.getElementById("graph2-btn");
+            var graph3Btn = document.getElementById("graph3-btn");
+            var graph4Btn = document.getElementById("graph4-btn");
+            var refreshBtn = document.getElementById("refresh-btn");
+            var downloadBtn = document.getElementById("download-btn");
+
+            graph1Btn.addEventListener("click", function () {
+                getGraphData("1");
+                currentGraph=1
+            });
+            graph2Btn.addEventListener("click", function () {
+                getGraphData("2");
+                currentGraph=2
+
+            });
+            graph3Btn.addEventListener("click", function () {
+                getGraphData("3");
+                currentGraph=3
+
+            });
+            graph4Btn.addEventListener("click", function () {
+                getGraphData("4");
+                currentGraph=4
+            });
+            refreshBtn.addEventListener("click", function () {
+                getGraphData(currentGraph);
+            });
+            downloadBtn.addEventListener("click", function () {
+                downloadCSV(currentGraph);
+            });
+        });
+        function downloadCSV(graph) {
+            // Get the JSON data from your JavaScript function
+            // send an HTTP GET request to the Flask server
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/graph/" + graph, true);
+            var data=null;
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // update the graph on the page with the new data
+                    data = JSON.parse(xhr.response);
+                    console.log("xmlhttp response parsed as JSON")
+                }
+            };
+            xhr.send();
+            
+            const jsonData = data;
+            
+            // Convert the JSON data to a CSV format
+            const csvData = convertToCSV(jsonData);
+            
+            // Create a new Blob object with the CSV data and set the MIME type
+            const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+            
+            // Create a link element and set its download attribute and href attribute
+            const link = document.createElement("a");
+            link.setAttribute("download", "data.csv");
+            link.setAttribute("href", URL.createObjectURL(blob));
+            
+            // Click the link element to download the file
+            link.click();
+        }
+
+        function getGraphData(graph) {
+            // send an HTTP GET request to the Flask server
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/graph/" + graph, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // update the graph on the page with the new data
+                    var data = JSON.parse(xhr.response);
+                    console.log("xmlhttp response parsed as JSON")
+                    console.log(data)
+                    console.log("Calling update graph now")
+                    updateGraph(graph, data);
+                }
+            };
+            xhr.send();
+        }
+        function updateGraph(graph, data) {
+            // get the canvas element for the graph
+            // var canvas = document.getElementById(graph + "-canvas");
+            if (canvas) {
+                canvas.destroy();
+            }
+            var name = data.metadata[0]
+            var unit = data.metadata[1]
+            var label = name + " " + unit
+            var x_values = data.x_values
+            var y_values = data.y_values
+            console.log(name)
+            // console.log(x_values)
+            // console.log(y_values)
+            // create a new Chart object with the updated data
+            canvas = document.getElementById('chart1').getContext('2d');
+            var chart = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: x_values,
+                    datasets: [{
+                        label: label,
+                        data: y_values,
+                        backgroundColor: 'black',
+                        borderColor: 'black',
+                        borderWidth:0.5
+                    }]
+                },
+                
+                
+                
+            });
+            canvas = chart
+        }
+
+    </script>
+</body>
+
+</html>

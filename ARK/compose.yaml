@@ -1,0 +1,37 @@
+services:
+
+  app:
+    build: .
+    # command: ["run-app"]
+    # command: ["python app.py"]
+    command: sh -c "python app.py"
+    ports:
+      - "8888:8888"
+    env_file:
+      - ./local.env
+    volumes:
+      - ./:/root/take_home_project
+      # Add Flask app dependencies to the app service
+    depends_on:
+      - postgres
+
+    # Add Flask app environment variables to the app service
+    # environment:
+    #   DATABASE_URL: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
+    #   FLASK_APP: "app.py"
+    #   FLASK_ENV: "development"
+
+  postgres:
+    image: postgres:15.2
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    env_file:
+      - ./local.env
+
+  adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8080:8080
+# Add the Flask app commands to the app service command
+  # command: sh -c "python app.py & run-app"

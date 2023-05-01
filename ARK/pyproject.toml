@@ -1,0 +1,9 @@
+[project]
+name = "ark_pkg"
+version = "0.1"
+
+[tool.setuptools]
+py-modules = ['pgdata','templates','static']
+
+[project.scripts]
+run-app = "src:app"
