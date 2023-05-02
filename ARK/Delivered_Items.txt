@@ -25,6 +25,7 @@ DONE--3) Can you add a "Download as csv" button? = FOR THE SPECIFIC TIME PERIOD
 
 How to run project?
 Prereq: Docker
+pwd=ARK
 2 commands:-
 1. docker-compose build
 2. docker-compose up
