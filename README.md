@@ -2,10 +2,19 @@
 
 ## Introduction
 
-Bioreactors purpose-built for cultivated meat, with a mission to 100x the industry’s capacity by 2035. The Data Systems team is responsible for everything from production, model-based control software to web-based data monitoring applications.
-
 In this project, I got the chance to demonstrate my proficiency in Python, building a simple web-based dashboard to visualize real-time process data originating from one of the bioreactors.
 
+The data is taken from Bioreactors. These bioreactors are purpose-built for cultivated meat, with a mission to 100x the industry’s capacity by 2035. The Data Systems team in these bioreactors is generally responsible for everything from production, model-based control software to web-based data monitoring applications. This project is to demonstrate my abilities in this domain
+
+
+## Screenshots
+
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.39.25%20PM.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.39.35%20PM.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.39.56%20PM.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.40.08%20PM.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.40.31%20PM.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.40.35%20PM.png">
 ## Technical Details
 
 In this directory, you'll find a `Dockerfile` that defines the image your code will be copied into and installed in. Specifically, your source code will be installed into a Python 3.10 virtual environment as a package via pip, along with any dependencies you've specified in a `requirements.txt` file.
@@ -14,7 +23,7 @@ You'll also find a `compose.yaml` file that defines the container that'll be use
 
 ### The database
 
-The data you'll be visualizing will be in a Postgres database, also configured in `compose.yaml`. Credentials to access this database will be provided in the following environment variables:
+The data I will be visualizing is in a Postgres database, also configured in `compose.yaml`. Credentials to access this database are confidential at the moment. But the file can be used to use another database and configure it.
 
 - `POSTGRES_HOST` provides the host
 - `POSTGRES_PORT` provides the port
@@ -59,25 +68,22 @@ Each table contains the following data:
 | CM_PID_DO/Process_DO     | Distilled Oxygen | %       |
 | CM_PRESSURE/Output       | Pressure         | psi     |
 
-### How to test your code
+### How to test the code
 
 Run `docker compose up` and navigate your browser to http://localhost:8888/. That's it!
 
-## Minimum Viable (Take Home) Project
+## Conclusion
 
 The dashboard allows the user to plot each of these four series (Temperature, pH, Distilled Oxygen, and Pressure) over time.
 
-### Evaluated
+### Checkpoints
 
-DONE--1) Does your package install successfully?=YES
-DONE--2) Can your dashboard be viewed at http://localhost:8888/, does it fulfill the MVP specification, and does it look good?=YES
-DONE--3) Is your code high quality, e.g. does it follow PEP8, is it fully type annotated, are there comments? = YES
-DONE--4) Bonus features.Does your package install successfully?
+- Package installs successfully
+- Dashboard can be viewed at http://localhost:8888/. It looks good
+- Code is high quality, e.g. It follows PEP8. It is it fully type annotated,and there are comments
 
 ### Bonus features
 
-Please do not work on these features until you've successfully completed the MVP, and haven't run out of time.
-
-DONE--1) Can you allow the user to select the time window? = YES
-DONE--2) Can you add a button to refresh the data without refreshing the page, or auto-refresh the page for the user?=YES
-DONE--3) Can you add a "Download as csv" button? = FOR THE SPECIFIC TIME PERIODCan you allow the user to select the time window?
+- User can select the time window
+- Added a button to refresh the data without refreshing the page, or auto-refresh the page for the user
+- Added a "Download as csv" button for the specific time period
