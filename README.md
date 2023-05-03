@@ -4,7 +4,7 @@
 
 Bioreactors purpose-built for cultivated meat, with a mission to 100x the industry’s capacity by 2035. The Data Systems team is responsible for everything from production, model-based control software to web-based data monitoring applications.
 
-In this project, I got the chance to demonstrate my proficiency in Python, building a simple web-based dashboard to visualize real-time process data originating from one of our bioreactors.
+In this project, I got the chance to demonstrate my proficiency in Python, building a simple web-based dashboard to visualize real-time process data originating from one of the bioreactors.
 
 ## Technical Details
 
