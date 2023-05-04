@@ -9,12 +9,12 @@ The data is taken from Bioreactors. These bioreactors are purpose-built for cult
 
 ## Screenshots
 
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss2.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss3.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss4.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss5.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss6.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss7.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/absaw_charts/screenshots/ss2.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/absaw_charts/screenshots/ss3.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/absaw_charts/screenshots/ss4.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/absaw_charts/screenshots/ss5.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/absaw_charts/screenshots/ss6.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/absaw_charts/screenshots/ss7.png">
 
 ## Technical Details
 
