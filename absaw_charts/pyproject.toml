@@ -3,7 +3,7 @@ name = "ark_pkg"
 version = "0.1"
 
 [tool.setuptools]
-py-modules = ['pgdata','templates','static','screenshots']
+py-modules = ['templates','static','screenshots']
 
 [project.scripts]
 run-app = "src:app"
