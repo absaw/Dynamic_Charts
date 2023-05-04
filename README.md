@@ -9,12 +9,13 @@ The data is taken from Bioreactors. These bioreactors are purpose-built for cult
 
 ## Screenshots
 
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.39.25%20PM.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.39.35%20PM.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.39.56%20PM.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.40.08%20PM.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.40.31%20PM.png">
-<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/Screenshot%202023-05-01%20at%202.40.35%20PM.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss2.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss3.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss4.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss5.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss6.png">
+<img src="https://github.com/absaw/Dynamic_Charts/blob/main/ARK/screenshots/ss7.png">
+
 ## Technical Details
 
 In this directory, you'll find a `Dockerfile` that defines the image your code will be copied into and installed in. Specifically, your source code will be installed into a Python 3.10 virtual environment as a package via pip, along with any dependencies you've specified in a `requirements.txt` file.
